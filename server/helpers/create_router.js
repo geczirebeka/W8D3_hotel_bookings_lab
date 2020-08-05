@@ -30,6 +30,7 @@ const createRouter = function (collection) {
     });
 
     router.post('/', (req, res) => {
+        if (req.body.hasOwnProperty('name') && req.body.hasOwnProperty('email') === true) {
         collection
             .insertOne(req.body)
             .then(result => {
@@ -40,6 +41,9 @@ const createRouter = function (collection) {
                 res.status(500);
                 res.json({ status: 500, error: err });
               });
+            } else {
+            return "Incomplete Fields";
+            };
     });
 
     router.delete('/:id', (req, res) => {
