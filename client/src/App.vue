@@ -1,13 +1,13 @@
 <template>
   <div id="app">
+    <bookings-form />
     <bookings-grid :bookings="bookings" />
-   
   </div>
 </template>
 
 <script>
 import {eventBus} from '@/main.js';
-// import BookingsFrom from './components/BookingsForm.vue';
+import BookingsForm from './components/BookingsForm.vue';
 import BookingsGrid from './components/BookingsGrid.vue';
 import BookingService from './services/BookingService.js';
 
@@ -19,20 +19,20 @@ export default {
     };
   },
   components: {
-    // 'bookings-form': BookingsForm,
+    'bookings-form': BookingsForm,
     'bookings-grid': BookingsGrid
   },
   mounted() {
     this.fetchBookings();
 
-    // eventBus.$on('booking-added', (booking) => {
-    //   this.bookings.push(booking);
-    // });
+    eventBus.$on('booking-added', (booking) => {
+      this.bookings.push(booking);
+    });
 
-    // eventBus.$on('booking-deleted', (id) => {
-    //   let index = this.bookings.findIndex(booking => booking._id === id);
-    //   this.sightings.splice(index, 1);
-    // })
+    eventBus.$on('booking-deleted', (id) => {
+      let index = this.bookings.findIndex(booking => booking._id === id);
+      this.bookings.splice(index, 1);
+    })
   },
   methods: {
     fetchBookings() {
